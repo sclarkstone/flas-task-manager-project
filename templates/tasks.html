@@ -1,34 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h3 class="light-blue-text text-darken-4 center-align">All Tasks</h3>
+    {% if session.users_type == 'book' %}
+        <div class="row">
+            <div class="col s12 m12">
+                <h3 class="light-blue-text text-darken-4 center-align">BOOK {{ session.user_book }} - PAGE {{ session.page }}</h3>
+                <div class="card-panel light-green lighten-5">
+                    <p>
+                        {{ session.user_book }}
+                    </p>
+                    <a href="{{ url_for('get_tasks') }}" class="btn-large green darken-1">Link details</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h3 class="light-blue-text text-darken-4 center-align">TASKS</h3>
 
     <ul class="collapsible">
-        {% for task in tasks %}
+       
+      
+       
+        {% for pages in page %}
         <li>
-            <div class="collapsible-header white-text light-blue darken-4 text-shadow">
+            <div class="collapsible-header black-text light-green lighten-5">
                 <div class="col s3">
                     <i class="fas fa-caret-down"></i>
-                    {% if session.user|lower == task.created_by|lower %}
-                        <a href="{{ url_for('delete_task', task_id=task._id) }}" class="btn-small green accent-4">Done</a>
-                        <a href="{{ url_for('edit_task', task_id=task._id) }}" class="btn-small light-blue lighten-1">Edit</a>
+                    {% if session.pages == page.book_number %}
+                        <a href="{{ url_for('get_tasks') }}" class="btn-small green accent-4">Done</a>
+                        <a href="{{ url_for('get_tasks') }}" class="btn-small light-blue lighten-1">Edit</a>
                     {% endif %}
                 </div>
                 <div class="col s9">
-                    <strong>{{ task.task_name }}</strong> : {{ task.due_date }}
-                    {% if task.is_urgent == "on" %}
+                    <strong>{{ page.book_number }}</strong> : {{ page.book_number }}
+                    {% if page.book_number == "on" %}
                         <i class="fas fa-exclamation-circle light-blue-text text-lighten-2 tooltipped"
                             data-position="right" data-tooltip="URGENT!"></i>
                     {% endif %}
                 </div>
             </div>
             <div class="collapsible-body">
-                <strong>{{ task.category_name }}</strong>
-                <p>{{ task.task_description }}</p>
-                <p><em>by: {{ task.created_by }}</em></p>
+                <strong>{{ page.book_number }}</strong>
+                <p>{{ page.book_number }}</p>
+                <p><em>by: {{ page.book_number }}</em></p>
             </div>
         </li>
         {% endfor %}
     </ul>
-
+    {% endif %}
 {% endblock %}

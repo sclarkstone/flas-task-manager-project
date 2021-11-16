@@ -18,11 +18,16 @@ app.secret_key = os.environ.get("SECRET_KEY")
 mongo = PyMongo(app)
 
 
-@app.route("/")
 @app.route("/get_tasks")
 def get_tasks():
-    tasks = list(mongo.db.tasks.find())
-    return render_template("tasks.html", tasks=tasks)
+    if session.get('page', None) is not None:
+        session["page"] = session["page"]
+    else:
+        session["page"] = '1'
+
+    pages = list(mongo.db.pages.find())
+    return render_template("tasks.html", pages=pages, page=session["page"])
+
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -50,6 +55,7 @@ def register():
     return render_template("register.html")
 
 
+@app.route("/")
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -62,10 +68,11 @@ def login():
             if check_password_hash(
                     existing_user["password"], request.form.get("password")):
                         session["user"] = request.form.get("username").lower()
-                        flash("Welcome, {}".format(
-                            request.form.get("username")))
+                        session["users_name"] = existing_user["users_name"]
+                        session["users_type"] = existing_user["type"]
+                        session["user_book"] = existing_user["book_number"]
                         return redirect(url_for(
-                            "profile", username=session["user"]))
+                            "profile", usersname=session["users_name"], username=session["user"], type=session["users_type"], book=session["user_book"]))
             else:
                 # invalid password match
                 flash("Incorrect Username and/or Password")
@@ -79,12 +86,12 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/")
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
     # grab the session user's username from db
     username = mongo.db.users.find_one(
         {"username": session["user"]})["username"]
-
     if session["user"]:
         return render_template("profile.html", username=username)
 
