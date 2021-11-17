@@ -26,7 +26,7 @@ def get_tasks():
         session["page"] = '1'
 
     pages = list(mongo.db.pages.find())
-    return render_template("tasks.html", pages=pages, page=session["page"])
+    return render_template("tasks.html", pages=pages)
 
 
 
@@ -109,18 +109,14 @@ def logout():
 @app.route("/add_task", methods=["GET", "POST"])
 def add_task():
     if request.method == "POST":
-        is_urgent = "on" if request.form.get("is_urgent") else "off"
         task = {
-            "category_name": request.form.get("category_name"),
-            "task_name": request.form.get("task_name"),
-            "task_description": request.form.get("task_description"),
-            "is_urgent": is_urgent,
-            "due_date": request.form.get("due_date"),
-            "created_by": session["user"]
+            "book_number": request.form.get("book"),
+            "page_number": request.form.get("page"),
+            "content": request.form.get("content"),
         }
-        mongo.db.tasks.insert_one(task)
-        flash("Task Successfully Added")
-        return redirect(url_for("get_tasks"))
+        mongo.db.pages.insert_one(task)
+        flash("Successfully Added")
+        return redirect(url_for("add_task"))
 
     categories = mongo.db.categories.find().sort("category_name", 1)
     return render_template("add_task.html", categories=categories)
