@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     {% block styles %}
     {% endblock %}
-    <title>Christmas puzzle</title>
+    <title>Christmas puzzle 2021</title>
 </head>
 <body>
 
@@ -35,7 +35,7 @@
 
         <!-- mobile sidenav -->
 		<ul class="sidenav" id="mobile-demo">
-            <li><h4 class="center-align light-blue-text text-darken 4">Christmas puzzle</h4></li>
+            <li><h4 class="center-align light-blue-text text-darken 4">Christmas puzzle 2021</h4></li>
             {% if session.user %}
                 <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
                 {% if session.user|lower == "admin"|lower %}

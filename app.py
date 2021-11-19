@@ -17,16 +17,12 @@ app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
 
-
-@app.route("/get_tasks")
+@app.route("/get_tasks/")
 def get_tasks():
-    if session.get('page', None) is not None:
-        session["page"] = session["page"]
-    else:
-        session["page"] = '1'
-
+    session["page_id"] = request.args.get('page_id')
     pages = list(mongo.db.pages.find())
-    return render_template("tasks.html", pages=pages)
+    links = list(mongo.db.links.find())
+    return render_template("tasks.html", pages=pages, links=links)
 
 
 

@@ -1,15 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
-
     {% if session.users_type == 'book' %}
         <div class="row">
             <div class="col s12 m12">
-                <h3 class="light-blue-text text-darken-4 center-align">USER {{ session.user_book }} - PAGE {{ session.page }}</h3>
+                <h3 class="light-blue-text text-darken-4 center-align">USER {{ session.user_book }} - PAGE {{ session.page_id }}</h3>
                 <div class="card-panel light-green lighten-5">
                     <p>
-                        {{ session.user_book }}
+                    {% for page in pages %}
+                        {% if page.book_number == session.user_book and page.page_number == session.page_id %}
+                            {{ page.content }}
+                        {% endif %}
+                    {% endfor %}
                     </p>
-                    <a href="{{ url_for('get_tasks') }}" class="btn-large green darken-1">Link details</a>
+                    {% for link in links %}
+                    <p>
+                        {% if link.book_number == session.user_book and link.page_number == session.page_id %}
+                            <a href="{{ url_for('get_tasks') }}" class="btn-large green darken-1">{{ link.text }}</a>
+                        {% endif %}
+                    </p>
+                    {% endfor %}
                 </div>
             </div>
         </div>
