@@ -118,6 +118,22 @@ def add_task():
     return render_template("add_task.html", categories=categories)
 
 
+@app.route("/add_link", methods=["GET", "POST"])
+def add_link():
+    if request.method == "POST":
+        links = {
+            "book_number": request.form.get("book"),
+            "page_number": request.form.get("page"),
+            "page_go": request.form.get("page_go"),
+            "link_text": request.form.get("link_text"),
+        }
+        mongo.db.links.insert_one(links)
+        flash("Successfully Added")
+        return redirect(url_for("add_link"))
+
+    return render_template("add_link.html")
+
+
 @app.route("/edit_task/<task_id>", methods=["GET", "POST"])
 def edit_task(task_id):
     if request.method == "POST":

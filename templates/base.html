@@ -17,13 +17,14 @@
         <!-- top navbar -->
 		<nav class="nav-extended text-shadow green darken-1">
 			<div class="nav-wrapper">
-				<a href="" class="brand-logo">Christmas puzzle 2021</a>
+				<a href="" class="brand-logo center"></a>
 				<a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
 				<ul class="right hide-on-med-and-down">
                     {% if session.user %}
                         <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
                         {% if session.user|lower == "admin"|lower %}
-                            <li><a href="{{ url_for('add_task') }}">Manage Categories</a></li>
+                            <li><a href="{{ url_for('add_task') }}">Add new page</a></li>
+                            <li><a href="{{ url_for('add_link') }}">Add new link</a></li>
                         {% endif %}
                         <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                     {% else %}
@@ -39,7 +40,8 @@
             {% if session.user %}
                 <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
                 {% if session.user|lower == "admin"|lower %}
-                    <li><a href="{{ url_for('get_categories') }}">Manage Categories</a></li>
+                <li><a href="{{ url_for('add_task') }}">Add new page</a></li>
+                <li><a href="{{ url_for('add_link') }}">Add new link</a></li>
                 {% endif %}
                 <li><a href="{{ url_for('logout') }}">Log Out</a></li>
             {% else %}
