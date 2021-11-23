@@ -14,20 +14,3 @@
     margin: 5px;
     line-height: 42px;
 }
-
-.btn.waves-effect {
-    height: auto;
-    min-height: 20px;
-    line-height: 20px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-right: 50px;
-}
-
-.btn.waves-effect .material-icons {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    margin-top: -10px;
-    margin-left: 0;
-}
